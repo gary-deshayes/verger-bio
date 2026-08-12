@@ -1,0 +1,119 @@
+---
+// Page comparatifs — cœur du business d'affiliation
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProductCard from "../components/ProductCard.astro";
+import AffiliateDisclaimer from "../components/AffiliateDisclaimer.astro";
+---
+
+<BaseLayout
+  title="Comparatifs & meilleurs produits verger — Verger Mon Blog Fruits"
+  description="Nos comparatifs honnêtes des meilleurs produits verger : tests, prix, avis. Mis à jour régulièrement."
+>
+  <h1>🛒 Comparatifs & recommandations</h1>
+  <p class="intro">
+    Nous testons et comparons les meilleurs produits verger pour vous faire
+    gagner du temps et de l'argent. Chaque sélection est mise à jour
+    régulièrement avec les prix du moment.
+  </p>
+
+  <section>
+    <h2>🥇 Le top 3 verger</h2>
+    <div class="products-grid">
+      <ProductCard
+        name="Meilleur choix — [NOM]"
+        price="[PRIX] €"
+        rating="4.8"
+        href="[LIEN_AFFILIE]"
+        badge="N°1"
+        pros={["Excellente qualité", "Rapport qualité/prix imbattable", "Garantie 2 ans"]}
+      />
+      <ProductCard
+        name="Alternative premium — [NOM]"
+        price="[PRIX] €"
+        rating="4.6"
+        href="[LIEN_AFFILIE]"
+        pros={["Performances haut de gamme", "Design premium"]}
+      />
+      <ProductCard
+        name="Meilleur rapport qualité/prix — [NOM]"
+        price="[PRIX] €"
+        rating="4.3"
+        href="[LIEN_AFFILIE]"
+        badge="Budget"
+        pros={["Prix attractif", "Fiable pour un usage régulier"]}
+      />
+    </div>
+  </section>
+
+  <section>
+    <h2>📊 Comparatif détaillé</h2>
+    <div class="table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Critère</th>
+            <th>[Produit A]</th>
+            <th>[Produit B]</th>
+            <th>[Produit C]</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Prix</td><td>[€]</td><td>[€]</td><td>[€]</td></tr>
+          <tr><td>Performance</td><td>⭐⭐⭐⭐⭐</td><td>⭐⭐⭐⭐</td><td>⭐⭐⭐⭐</td></tr>
+          <tr><td>Facilité d'utilisation</td><td>⭐⭐⭐⭐⭐</td><td>⭐⭐⭐⭐⭐</td><td>⭐⭐⭐</td></tr>
+          <tr><td>Durabilité</td><td>⭐⭐⭐⭐</td><td>⭐⭐⭐⭐⭐</td><td>⭐⭐⭐</td></tr>
+          <tr><td>Service après-vente</td><td>Excellent</td><td>Bon</td><td>Correct</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>💡 Comment nous testons</h2>
+    <p>
+      Notre processus d'évaluation repose sur des critères objectifs :
+      performance réelle, durabilité, rapport qualité/prix et retour
+      d'expérience des utilisateurs. Nous ne recommandons jamais un produit
+      que nous n'utiliserions pas nous-mêmes.
+    </p>
+  </section>
+
+  <AffiliateDisclaimer />
+</BaseLayout>
+
+<style>
+  .intro {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 720px;
+  }
+  section {
+    margin: 2.5rem 0;
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+  .table-wrap {
+    overflow-x: auto;
+  }
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+  .compare-table th,
+  .compare-table td {
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .compare-table th {
+    background: var(--bg-alt);
+    font-weight: 700;
+  }
+  .compare-table tr:nth-child(even) td {
+    background: var(--bg-alt);
+  }
+</style>

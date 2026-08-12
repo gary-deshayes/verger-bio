@@ -1,0 +1,167 @@
+---
+// Page d'accueil — hero + articles récents + produits vedettes
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProductCard from "../components/ProductCard.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog"))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 6);
+
+const SITE_TITLE = "Verger Mon Blog Fruits";
+const SITE_DESC =
+  "Guides pratiques et comparatifs honnêtes pour verger. Recommandations testées, prix vérifiés.";
+---
+
+<BaseLayout title={`${SITE_TITLE} — Guides & comparatifs verger`} description={SITE_DESC}>
+  <section class="hero">
+    <h1>🌱 Bienvenue sur {SITE_TITLE}</h1>
+    <p class="hero-desc">
+      {SITE_DESC}
+    </p>
+    <a href="/blog/" class="btn-primary">Explorer les guides →</a>
+  </section>
+
+  <section class="featured-products">
+    <h2>🏆 Nos recommandations du moment</h2>
+    <div class="products-grid">
+      <ProductCard
+        name="Produit vedette #1 — [NOM]"
+        price="[PRIX] €"
+        rating="4.6"
+        href="[LIEN_AFFILIE]"
+        badge="Meilleur choix"
+        pros={["Point fort 1", "Point fort 2", "Point fort 3"]}
+      />
+      <ProductCard
+        name="Produit #2 — [NOM]"
+        price="[PRIX] €"
+        rating="4.4"
+        href="[LIEN_AFFILIE]"
+        pros={["Point fort 1", "Point fort 2"]}
+      />
+      <ProductCard
+        name="Produit #3 — [NOM]"
+        price="[PRIX] €"
+        rating="4.2"
+        href="[LIEN_AFFILIE]"
+        pros={["Point fort 1", "Point fort 2"]}
+      />
+    </div>
+    <p class="affiliate-note">
+      * Liens d'affiliation — prix susceptibles de varier. Voir notre{" "}
+      <a href="/comparatifs/">page comparatifs</a>.
+    </p>
+  </section>
+
+  <section class="recent-posts">
+    <h2>📝 Derniers guides</h2>
+    <div class="posts-grid">
+      {posts.map((post) => (
+        <a href={`/blog/${post.slug}/`} class="post-card">
+          <div class="post-date">
+            {post.data.pubDate.toLocaleDateString("fr-FR", { dateStyle: "long" })}
+          </div>
+          <h3>{post.data.title}</h3>
+          <p>{post.data.description}</p>
+        </a>
+      ))}
+    </div>
+    <a href="/blog/" class="btn-secondary">Voir tous les articles →</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 3rem 0 2rem;
+  }
+  .hero-desc {
+    max-width: 620px;
+    margin: 0 auto 1.5rem;
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+  .btn-primary,
+  .btn-secondary {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    padding: 0.75rem 1.75rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: background 0.15s;
+  }
+  .btn-primary:hover {
+    background: var(--primary-dark);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--primary-dark);
+    border: 2px solid var(--primary);
+    margin-top: 1.5rem;
+  }
+  .btn-secondary:hover {
+    background: var(--primary);
+    color: white;
+  }
+  section {
+    margin-bottom: 3.5rem;
+  }
+  h2 {
+    margin-bottom: 1.5rem;
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+  .affiliate-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 0.75rem;
+  }
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .post-card {
+    display: block;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .post-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+  .post-date {
+    font-size: 0.78rem;
+    color: var(--primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .post-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+  .post-card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin: 0;
+  }
+  .recent-posts {
+    text-align: center;
+  }
+  .recent-posts .posts-grid {
+    text-align: left;
+  }
+</style>

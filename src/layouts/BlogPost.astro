@@ -1,0 +1,134 @@
+---
+// Layout d'article — SEO Article + encarts pub + affiliation
+import BaseLayout from "./BaseLayout.astro";
+import AdSlot from "../components/AdSlot.astro";
+import AffiliateDisclaimer from "../components/AffiliateDisclaimer.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  tags?: string[];
+  image?: string;
+}
+const { title, description, pubDate, updatedDate, tags = [], image } = Astro.props;
+const site = new URL(Astro.site ?? "https://exemple.fr");
+const canonical = new URL(Astro.url.pathname, site);
+
+// JSON-LD structuré pour Google (rich results)
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  description,
+  image: image ? new URL(image, site).toString() : undefined,
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate ?? pubDate).toISOString(),
+  author: { "@type": "Person", name: "Le Rédacteur" },
+  publisher: {
+    "@type": "Organization",
+    name: "Mon Blog",
+    logo: { "@type": "ImageObject", url: new URL("/favicon.svg", site).toString() },
+  },
+  mainEntityOfPage: canonical.toString(),
+};
+---
+
+<BaseLayout title={title} description={description} image={image} type="article">
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <article class="post">
+    <header class="post-header">
+      <div class="post-meta">
+        <time datetime={pubDate.toISOString()}>
+          {pubDate.toLocaleDateString("fr-FR", { dateStyle: "long" })}
+        </time>
+        {tags.length > 0 && (
+          <span class="post-tags">
+            {tags.map((t) => `#${t}`).join(" · ")}
+          </span>
+        )}
+      </div>
+      <h1>{title}</h1>
+      <p class="post-desc">{description}</p>
+    </header>
+
+    <!-- 📢 Encart pub : haut d'article -->
+    <AdSlot format="horizontal" />
+
+    <div class="post-content">
+      <slot />
+    </div>
+
+    <!-- 📢 Encart pub : bas d'article -->
+    <AdSlot format="horizontal" />
+
+    <AffiliateDisclaimer />
+
+    <div class="post-nav">
+      <a href="/blog/">← Tous les articles</a>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-header {
+    margin-bottom: 1.5rem;
+  }
+  .post-meta {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .post-tags {
+    color: var(--primary);
+    font-weight: 600;
+  }
+  .post-desc {
+    font-size: 1.1rem;
+    color: var(--muted);
+  }
+  .post-content {
+    font-size: 1.02rem;
+  }
+  .post-content img {
+    max-width: 100%;
+    border-radius: var(--radius);
+    height: auto;
+  }
+  .post-content h2 {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.4rem;
+  }
+  .post-content ul,
+  .post-content ol {
+    margin: 0 0 1.1rem 1.4rem;
+  }
+  .post-content blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--bg-alt);
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1.2rem 0;
+    color: var(--muted);
+  }
+  .post-content code {
+    background: var(--bg-alt);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  .post-nav {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .post-nav a {
+    font-weight: 600;
+    text-decoration: none;
+  }
+</style>

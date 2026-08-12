@@ -1,0 +1,127 @@
+---
+// Carte produit avec lien d'affiliation
+// Usage: <ProductCard name="..." image="..." price="..." rating="4.5" href="..." badge="Meilleur choix" />
+interface Props {
+  name: string;
+  image?: string;
+  price?: string;
+  rating?: string;
+  href: string;
+  badge?: string;
+  pros?: string[];
+}
+const { name, image, price, rating, href, badge, pros = [] } = Astro.props;
+---
+
+<div class="product-card">
+  {badge && <span class="product-badge">🏆 {badge}</span>}
+  {image && (
+    <div class="product-image">
+      <img src={image} alt={name} loading="lazy" width="300" height="200" />
+    </div>
+  )}
+  <div class="product-info">
+    <h3 class="product-name">{name}</h3>
+    {rating && <div class="product-rating">⭐ {rating} / 5</div>}
+    {price && <div class="product-price">{price}</div>}
+    {pros.length > 0 && (
+      <ul class="product-pros">
+        {pros.map((p) => (
+          <li>{p}</li>
+        ))}
+      </ul>
+    )}
+    <a href={href} target="_blank" rel="noopener sponsored nofollow" class="product-link">
+      Voir le prix →
+    </a>
+  </div>
+</div>
+
+<style>
+  .product-card {
+    position: relative;
+    border: 1px solid #e7e5e4;
+    border-radius: 14px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.2s;
+  }
+  .product-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  .product-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #f59e0b;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    z-index: 2;
+  }
+  .product-image {
+    background: #f5f5f4;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .product-image img {
+    width: 100%;
+    height: auto;
+    max-height: 160px;
+    object-fit: contain;
+  }
+  .product-info {
+    padding: 1rem 1.2rem 1.2rem;
+  }
+  .product-name {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: #1c1917;
+  }
+  .product-rating {
+    font-size: 0.85rem;
+    color: #b45309;
+    margin-bottom: 6px;
+  }
+  .product-price {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #059669;
+    margin-bottom: 8px;
+  }
+  .product-pros {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px;
+    font-size: 0.8rem;
+    color: #57534e;
+  }
+  .product-pros li {
+    padding: 2px 0;
+  }
+  .product-pros li::before {
+    content: "✓ ";
+    color: #059669;
+    font-weight: 700;
+  }
+  .product-link {
+    display: block;
+    text-align: center;
+    background: #047857;
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 10px 14px;
+    border-radius: 8px;
+    transition: background 0.15s;
+  }
+  .product-link:hover {
+    background: #065f46;
+  }
+</style>

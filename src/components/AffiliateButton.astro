@@ -1,0 +1,51 @@
+---
+// Bouton d'affiliation réutilisable
+// Usage: <AffiliateButton href="https://amazon.fr/..." text="Voir sur Amazon" />
+interface Props {
+  href: string;
+  text: string;
+  note?: string;
+}
+const { href, text, note = "Prix vérifié — offre partenaire" } = Astro.props;
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener sponsored nofollow"
+  class="affiliate-btn"
+>
+  <span class="affiliate-btn-text">{text} ↗</span>
+  <span class="affiliate-btn-note">{note}</span>
+</a>
+
+<style>
+  .affiliate-btn {
+    display: block;
+    max-width: 480px;
+    margin: 1.5rem auto;
+    padding: 0.9rem 1.5rem;
+    background: linear-gradient(135deg, #059669, #047857);
+    color: white;
+    border-radius: 12px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(4, 120, 87, 0.25);
+    transition: transform 0.15s, box-shadow 0.15s;
+    text-align: center;
+  }
+  .affiliate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(4, 120, 87, 0.35);
+  }
+  .affiliate-btn-text {
+    display: block;
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+  .affiliate-btn-note {
+    display: block;
+    font-size: 0.75rem;
+    opacity: 0.85;
+    margin-top: 2px;
+  }
+</style>

@@ -1,0 +1,55 @@
+---
+// Encart publicitaire AdSense
+// Usage: <AdSlot format="horizontal" slot="1234567890" />
+// → Remplace slot par ton ID d'annonce AdSense réel
+interface Props {
+  format?: "horizontal" | "rectangle" | "auto";
+  slot?: string;
+}
+const { format = "horizontal", slot = "VOTRE_SLOT_ADSENSE" } = Astro.props;
+
+const heights = {
+  horizontal: "90px",
+  rectangle: "250px",
+  auto: "auto",
+};
+---
+
+<div class="ad-slot" style={`min-height: ${heights[format]}`}>
+  <span class="ad-label">Publicité</span>
+  <!--
+    ⚠️ ACTIVER LORSQUE AdSense EST APPROUVÉ :
+    <ins class="adsbygoogle" style="display:block"
+      data-ad-client="ca-pub-VOTRE_ID"
+      data-ad-slot={slot}
+      data-ad-format={format === "auto" ? "auto" : "horizontal"}
+      data-full-width-responsive="true"></ins>
+  -->
+  <div class="ad-placeholder">📢 Espace publicitaire</div>
+</div>
+
+<style>
+  .ad-slot {
+    background: #fafaf9;
+    border: 1px dashed #d6d3d1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem 0;
+    overflow: hidden;
+  }
+  .ad-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #a8a29e;
+    margin-top: 6px;
+  }
+  .ad-placeholder {
+    color: #a8a29e;
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+</style>

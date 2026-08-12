@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gary-deshayes.github.io/verger-bio/sitemap-index.xml
