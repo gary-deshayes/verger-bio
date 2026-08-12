@@ -7,7 +7,7 @@ export async function GET(context) {
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
   );
   return rss({
-    title: "Verger Mon Blog Fruits — verger",
+    title: "Verger & Fruits — verger",
     description: "Guides, comparatifs et conseils verger.",
     site: context.site,
     items: posts.map((post) => ({
